@@ -1,0 +1,86 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# NPSpecies
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+NPSpecies contains "Information on Species in National Parks". The dataset was collected across all park listed here:
+https://irma.nps.gov/NPSpecies/Search/SpeciesList    
+
+
+## Installation
+
+You can install the development version of NPSpecies like so:
+
+``` r
+devtools::install_github("frankiethull/NPSpecies")
+```
+
+## Example
+
+This showcases the data format of what is typically downloaded through the NPSpecies GUI. The GUI only allows one park to be downloaded at a time. Here, we have all data for all parks. Allowing for quite a bit of exploratory data analysis across NPS. 
+
+filtering for the most observed reptiles at Great Sand Dunes National Park and Preserve:
+```{r example1}
+library(NPSpecies)
+library(tinytable)
+
+NPSpecies::species |>
+    dplyr::filter(ParkCode == "GRSA") |>
+    dplyr::filter(CategoryName == "Reptile") |>
+    dplyr::select(ParkName, CategoryName, Family, SciName, CommonNames, Observations) |>
+    dplyr::arrange(
+      dplyr::desc(Observations)
+      ) |>
+    head(3) |>
+    tt()
+```
+
+filtering for top 5 most observed non-native species at Everglades National Park:
+```{r example2}
+library(NPSpecies)
+
+NPSpecies::species |>
+    dplyr::filter(ParkCode == "EVER") |> 
+    dplyr::filter(Nativeness == "Non-native") |>
+    dplyr::select(ParkName, CategoryName, Family, SciName, CommonNames, Observations) |>
+    dplyr::arrange(desc(Observations)) |>
+    head(5) |>
+    tt()
+```
+
+
+most observed bird species by park across all parks:
+```{r example3}
+NPSpecies::species |>
+  dplyr::filter(CategoryName == "Bird") |> 
+  dplyr::group_by(ParkName) |>
+  dplyr::select(ParkName, CommonNames, Observations) |>
+  dplyr::arrange(desc(Observations)) |>
+  dplyr::slice(1) |>
+  dplyr::ungroup() |>
+  dplyr::arrange(desc(Observations)) |> 
+  head(10) |> # only display 10
+  tt()
+```
+
+
+##### citation:
+ - *this package is static data, as of Labor Day 2024, for EDA purposes*        
+NPSpecies - The National Park Service biodiversity database.   
+https://irma.nps.gov/npspecies/       
+Accessed September 2nd, 2024      

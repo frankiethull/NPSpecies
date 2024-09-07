@@ -1,0 +1,13 @@
+Package: NPSpecies
+Title: Species Lists By Park Via National Park Services
+Version: 0.0.0.1
+Authors@R: 
+    person("frankie t.", "hull", , "frankiethull@gmail.com", role = c("aut", "cre"))
+Description: This package contains Information on Species in National Parks via https://irma.nps.gov/NPSpecies/Search/SpeciesList. These are listed in a GUI and require download to Excel. This library is a collection of all species by park for exploratory learning in R. 
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends: 
+    R (>= 2.10)
+LazyData: true
